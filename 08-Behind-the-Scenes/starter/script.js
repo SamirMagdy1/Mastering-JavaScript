@@ -38,5 +38,17 @@
    2. Scope chain
    3. this keyword
  -> the Call Stack: place where execution context get stacked on top of each other, to keep track of where we are in the execution
-
+ ---------------------------------------------------
+=> Scoping and Scope Chain in JS:
+ -> Scope: how our program's variables are organized and accessed "where do variables live?" or "where can we access a certain variable, and when not?"
+ *lexical scoping: scoping is controlle
+ -> scope: space or environment in which a certain variable is decleared
+   - global: outside of any function of block
+   - function: inside function "function body"
+   - block: only applies to let and const variables, functions are also block scoped "only i strict mode"
+ * let and const are block-scoped
+ * var is function scoped
+ -> Scope chain vs. Call stack:
+   - Call stack: order in which functions were called
+   - Scope chain: order in which functions are written in the code
  */
