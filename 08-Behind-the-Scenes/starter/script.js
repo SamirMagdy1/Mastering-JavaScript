@@ -52,3 +52,45 @@
    - Call stack: order in which functions were called
    - Scope chain: order in which functions are written in the code
  */
+
+// Scoping in practice
+function calcAge(birthYear) {
+  const age = 2037 - birthYear;
+
+  function printAge() {
+    let output = `${firstName}, you are ${age}, born in ${birthYear}`;
+    console.log(output);
+
+    if (birthYear >= 1997 && birthYear <= 2010) {
+      var GenZ = true;
+
+      // Creating New variable with same name as outer scope's variable
+      const firstName = 'Magdy';
+
+      // Reassigning outer scope's variable
+      output = 'NEW output';
+
+      const str = `Oh, and you're a GenZ, ${firstName}`;
+      console.log(str);
+
+      // Functions are Blocked Scoped, in strict mode
+      function add(a, b) {
+        return a + b;
+      }
+    }
+    //  console.log(str); // Not defined, out of block scope
+    console.log(GenZ); // Accessed in all calcAge scope
+    //  add(2, 3); // not accessed, blocked scope
+    console.log(output);
+  }
+  printAge();
+
+  return age;
+}
+
+const firstName = 'Samir';
+calcAge(2001);
+
+// can not access here, out of scope
+// console.log(age);
+// printAge();
