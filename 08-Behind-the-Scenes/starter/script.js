@@ -54,43 +54,94 @@
  */
 
 // Scoping in practice
-function calcAge(birthYear) {
-  const age = 2037 - birthYear;
+// function calcAge(birthYear) {
+//   const age = 2037 - birthYear;
 
-  function printAge() {
-    let output = `${firstName}, you are ${age}, born in ${birthYear}`;
-    console.log(output);
+//   function printAge() {
+//     let output = `${firstName}, you are ${age}, born in ${birthYear}`;
+//     console.log(output);
 
-    if (birthYear >= 1997 && birthYear <= 2010) {
-      var GenZ = true;
+//     if (birthYear >= 1997 && birthYear <= 2010) {
+//       var GenZ = true;
 
-      // Creating New variable with same name as outer scope's variable
-      const firstName = 'Magdy';
+//       // Creating New variable with same name as outer scope's variable
+//       const firstName = 'Magdy';
 
-      // Reassigning outer scope's variable
-      output = 'NEW output';
+//       // Reassigning outer scope's variable
+//       output = 'NEW output';
 
-      const str = `Oh, and you're a GenZ, ${firstName}`;
-      console.log(str);
+//       const str = `Oh, and you're a GenZ, ${firstName}`;
+//       console.log(str);
 
-      // Functions are Blocked Scoped, in strict mode
-      function add(a, b) {
-        return a + b;
-      }
-    }
-    //  console.log(str); // Not defined, out of block scope
-    console.log(GenZ); // Accessed in all calcAge scope
-    //  add(2, 3); // not accessed, blocked scope
-    console.log(output);
-  }
-  printAge();
+//       // Functions are Blocked Scoped, in strict mode
+//       function add(a, b) {
+//         return a + b;
+//       }
+//     }
+//     //  console.log(str); // Not defined, out of block scope
+//     console.log(GenZ); // Accessed in all calcAge scope
+//     //  add(2, 3); // not accessed, blocked scope
+//     console.log(output);
+//   }
+//   printAge();
 
-  return age;
-}
+//   return age;
+// }
 
-const firstName = 'Samir';
-calcAge(2001);
+// const firstName = 'Samir';
+// calcAge(2001);
 
 // can not access here, out of scope
 // console.log(age);
 // printAge();
+//-----------------------------------------------
+
+/*
+Variable environments: Hoisting and the tdz
+ *execution context [variable env, scope chain, this keyword]
+-> Hoisting: making some types of variables accessible/ usable in the code before they are actully declared "variables lifted to the top of their scope"
+BUT behind the scenes: before execution, the code is scanned for variable declerations, for each variable, a new property is created in the variable env object
+ *TDZ: 'Temporal Dead Zone' the area between the begining of the scope and before declearation
+
+*/
+// Hoisting in practice:
+
+// variablew
+console.log(me); // undefined
+// console.log(job); // Reference Error cannot access before initialization
+// console.log(year); // same as job
+
+var me = 'samir';
+let job = 'Student';
+const year = 2001;
+
+// Functions
+console.log(addDecl); // well work
+console.log(addExpr); // also undefined byt we call it here as a function so the error is it is not a funcion
+// console.log(addArrow); // Reference error
+
+function addDecl(a, b) {
+  return a + b;
+}
+
+var addExpr = function (a, b) {
+  return a + b;
+};
+
+const addArrow = (a, b) => a + b;
+
+// Example
+console.log(numProducts); // Undefined
+if (!numProducts) deleteShoppingCart();
+
+var numProducts = 10;
+function deleteShoppingCart() {
+  console.log('All products deleted');
+}
+
+var x = 1; // Creating a property in window objedt
+let y = 2;
+const z = 3;
+console.log(x === window.x); // True
+console.log(y === window.y); // False
+console.log(z === window.z); // false
