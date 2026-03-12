@@ -107,41 +107,94 @@ BUT behind the scenes: before execution, the code is scanned for variable decler
 // Hoisting in practice:
 
 // variablew
-console.log(me); // undefined
+// console.log(me); // undefined
 // console.log(job); // Reference Error cannot access before initialization
 // console.log(year); // same as job
 
-var me = 'samir';
-let job = 'Student';
-const year = 2001;
+// var me = 'samir';
+// let job = 'Student';
+// const year = 2001;
 
-// Functions
-console.log(addDecl); // well work
-console.log(addExpr); // also undefined byt we call it here as a function so the error is it is not a funcion
-// console.log(addArrow); // Reference error
+// // Functions
+// console.log(addDecl); // well work
+// console.log(addExpr); // also undefined byt we call it here as a function so the error is it is not a funcion
+// // console.log(addArrow); // Reference error
 
-function addDecl(a, b) {
-  return a + b;
-}
+// function addDecl(a, b) {
+//   return a + b;
+// }
 
-var addExpr = function (a, b) {
-  return a + b;
+// var addExpr = function (a, b) {
+//   return a + b;
+// };
+
+// const addArrow = (a, b) => a + b;
+
+// // Example
+// console.log(numProducts); // Undefined
+// if (!numProducts) deleteShoppingCart();
+
+// var numProducts = 10;
+// function deleteShoppingCart() {
+//   console.log('All products deleted');
+// }
+
+// var x = 1; // Creating a property in window objedt
+// let y = 2;
+// const z = 3;
+// console.log(x === window.x); // True
+// console.log(y === window.y); // False
+// console.log(z === window.z); // false
+//--------------------------------------------------------
+
+/* 
+This keyword: Special variable that is created for every execution context(every function) takes the value of (points to) the owner of the function in which the this keyword is used
+=> value: 
+ - not static
+ - depends on how the function is called
+ - assigned when the function is actually called
+ - ways like:
+  -> method: this = <object that is calling the method>
+  -> simple funcion call: this = undefined
+  -> arrow funtions: do not get own this, <this is surrounding function (lexical this) >
+  -> event listener: this = <dom element that the handler is attached to>
+ - thes does NOT point to function itself, and also NOT the its variable environmet
+*/
+//--------------------------------------------------------
+
+// THIS keyword in practice
+
+// console.log(this); //in global scope, is the window object
+
+const calcAge = function (birthYear) {
+  console.log(2037 - birthYear);
+  //   console.log(this); // Undefined
+};
+calcAge(2001);
+
+const calcAgeArrow = birthYear => {
+  console.log(2037 - birthYear);
+  console.log(this); // back to golbal object (lexical)
+};
+calcAgeArrow(2007);
+
+const samir = {
+  year: 2001,
+  calcAge: function () {
+    console.log(this); // samir object
+    console.log(2037 - this.year);
+  },
+};
+samir.calcAge();
+
+const alice = {
+  year: 2002,
 };
 
-const addArrow = (a, b) => a + b;
+// method borrowing
+alice.calcAge = samir.calcAge;
+// console.log(alice.calcAge);
+alice.calcAge(); // this always the object who's calling the method
 
-// Example
-console.log(numProducts); // Undefined
-if (!numProducts) deleteShoppingCart();
-
-var numProducts = 10;
-function deleteShoppingCart() {
-  console.log('All products deleted');
-}
-
-var x = 1; // Creating a property in window objedt
-let y = 2;
-const z = 3;
-console.log(x === window.x); // True
-console.log(y === window.y); // False
-console.log(z === window.z); // false
+const f = samir.calcAge;
+f(); // undefined, just like a regualr function
