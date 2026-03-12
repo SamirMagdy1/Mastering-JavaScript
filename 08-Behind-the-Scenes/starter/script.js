@@ -166,35 +166,100 @@ This keyword: Special variable that is created for every execution context(every
 
 // console.log(this); //in global scope, is the window object
 
-const calcAge = function (birthYear) {
-  console.log(2037 - birthYear);
-  //   console.log(this); // Undefined
-};
-calcAge(2001);
+// const calcAge = function (birthYear) {
+//   console.log(2037 - birthYear);
+//   //   console.log(this); // Undefined
+// };
+// calcAge(2001);
 
-const calcAgeArrow = birthYear => {
-  console.log(2037 - birthYear);
-  console.log(this); // back to golbal object (lexical)
-};
-calcAgeArrow(2007);
+// const calcAgeArrow = birthYear => {
+//   console.log(2037 - birthYear);
+//   console.log(this); // back to golbal object (lexical)
+// };
+// calcAgeArrow(2007);
+
+// const samir = {
+//   year: 2001,
+//   calcAge: function () {
+//     console.log(this); // samir object
+//     console.log(2037 - this.year);
+//   },
+// };
+// samir.calcAge();
+
+// const alice = {
+//   year: 2002,
+// };
+
+// // method borrowing
+// alice.calcAge = samir.calcAge;
+// // console.log(alice.calcAge);
+// alice.calcAge(); // this always the object who's calling the method
+
+// const f = samir.calcAge;
+// f(); // undefined, just like a regualr function
+//----------------------------------------------------
+
+//=> Regular Functions vs. arrow functions
+
+// with using var, now we have a proberty in window object called firstName so it could be replaced in our greet method
+// var firstName = 'magdy';
 
 const samir = {
+  firstName: 'Samir',
   year: 2001,
   calcAge: function () {
-    console.log(this); // samir object
+    // console.log(this);
     console.log(2037 - this.year);
+
+    // in this function, "this" is not defined
+    // why? because this is a regular function, this keyword are undefined in regular funcions
+
+    // const isMillenial = function () {
+    //   console.log(this);
+    //   console.log(this.year >= 1981 && this.year <= 1996);
+
+    // Solution 1, assign this to a variable
+    // const self = this;
+    // const isMillenial = function () {
+    //   console.log(self);
+    //   console.log(self.year >= 1981 && self.year <= 1996);
+    // };
+
+    // Solution 2 , using arrow functions
+    const isMillenial = () => {
+      console.log(this);
+      console.log(this.year >= 1981 && this.year <= 1996);
+    };
+    isMillenial();
   },
+
+  // Arrow functions do not have this keyword
+  // so here we got Hey, undefined. this here refer to window object and firstName is not a probrty in it
+  greet: () => {
+    console.log(this);
+    console.log(`Hey, ${this.firstName}`);
+  },
+
+  // greet: function () {
+  //   console.log(this);
+  //   console.log(`Hey, ${this.firstName}`);
+  // },
 };
-samir.calcAge();
+// samir.greet();
+// samir.calcAge();
 
-const alice = {
-  year: 2002,
+// Argunment keyword
+// it has argument keyword, and its fine to add more arguments
+const addExpr = function (a, b) {
+  console.log(arguments);
+  return a + b;
 };
+addExpr(2, 5, 4);
 
-// method borrowing
-alice.calcAge = samir.calcAge;
-// console.log(alice.calcAge);
-alice.calcAge(); // this always the object who's calling the method
-
-const f = samir.calcAge;
-f(); // undefined, just like a regualr function
+// not allow to add more parametres than declaeard
+var addArrow = (a, b) => {
+  // console.log(arguments);
+  return a + b;
+};
+addArrow(2, 5);
