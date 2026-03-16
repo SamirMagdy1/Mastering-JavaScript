@@ -205,61 +205,144 @@ This keyword: Special variable that is created for every execution context(every
 // with using var, now we have a proberty in window object called firstName so it could be replaced in our greet method
 // var firstName = 'magdy';
 
-const samir = {
-  firstName: 'Samir',
-  year: 2001,
-  calcAge: function () {
-    // console.log(this);
-    console.log(2037 - this.year);
+// const samir = {
+//   firstName: 'Samir',
+//   year: 2001,
+//   calcAge: function () {
+//     // console.log(this);
+//     console.log(2037 - this.year);
 
-    // in this function, "this" is not defined
-    // why? because this is a regular function, this keyword are undefined in regular funcions
+//     // in this function, "this" is not defined
+//     // why? because this is a regular function, this keyword are undefined in regular funcions
 
-    // const isMillenial = function () {
-    //   console.log(this);
-    //   console.log(this.year >= 1981 && this.year <= 1996);
+//     // const isMillenial = function () {
+//     //   console.log(this);
+//     //   console.log(this.year >= 1981 && this.year <= 1996);
 
-    // Solution 1, assign this to a variable
-    // const self = this;
-    // const isMillenial = function () {
-    //   console.log(self);
-    //   console.log(self.year >= 1981 && self.year <= 1996);
-    // };
+//     // Solution 1, assign this to a variable
+//     // const self = this;
+//     // const isMillenial = function () {
+//     //   console.log(self);
+//     //   console.log(self.year >= 1981 && self.year <= 1996);
+//     // };
 
-    // Solution 2 , using arrow functions
-    const isMillenial = () => {
-      console.log(this);
-      console.log(this.year >= 1981 && this.year <= 1996);
-    };
-    isMillenial();
-  },
+//     // Solution 2 , using arrow functions
+//     const isMillenial = () => {
+//       console.log(this);
+//       console.log(this.year >= 1981 && this.year <= 1996);
+//     };
+//     isMillenial();
+//   },
 
-  // Arrow functions do not have this keyword
-  // so here we got Hey, undefined. this here refer to window object and firstName is not a probrty in it
-  greet: () => {
-    console.log(this);
-    console.log(`Hey, ${this.firstName}`);
-  },
+//   // Arrow functions do not have this keyword
+//   // so here we got Hey, undefined. this here refer to window object and firstName is not a probrty in it
+//   greet: () => {
+//     console.log(this);
+//     console.log(`Hey, ${this.firstName}`);
+//   },
 
-  // greet: function () {
-  //   console.log(this);
-  //   console.log(`Hey, ${this.firstName}`);
-  // },
+//   // greet: function () {
+//   //   console.log(this);
+//   //   console.log(`Hey, ${this.firstName}`);
+//   // },
+// };
+// // samir.greet();
+// // samir.calcAge();
+
+// // Argunment keyword
+// // it has argument keyword, and its fine to add more arguments
+// const addExpr = function (a, b) {
+//   console.log(arguments);
+//   return a + b;
+// };
+// addExpr(2, 5, 4);
+
+// // not allow to add more parametres than declaeard
+// var addArrow = (a, b) => {
+//   // console.log(arguments);
+//   return a + b;
+// };
+// addArrow(2, 5);
+//----------------------------------------------------
+
+// Primitives vs. objects {primitives vs. reference types}
+
+// in primitives
+// let age = 30;
+// let oldAge = age;
+// age = 31;
+
+// const me = {
+//   name: 'Samir',
+//   age: 30,
+// };
+
+// const friend = me;
+// friend.age = 27;
+// console.log('friend: ', friend);
+// console.log('me: ', me);
+/* here the age of me and friend are the same like friend age, not diffirent, Why?
+ frist primitives:
+ - number
+ - string
+ - boolean
+ - undefiend
+ - null
+ - symbol
+ - bigInt
+
+ second objects (reference types):
+ - object literal
+ - arrays
+ - functions
+ - many more
+
+ * primitive typer stored in call stack
+ - the variabe decleared as an identifier which stores memory addres that contains the value.
+ - when a new value assign to variable, identifier points to a new memory addres that contains the new value.
+
+ * reference types stord in heap
+ - object name has an indentifire which is point to memory address that stores memory address in the heap that holds the value of the object
+ Identifier -> memory address in call stack -> memory addres in Heap -> value address
+
+ * const is immutable in primitves
+ but mutable in objects!, because the acutal value the identifier points to not changed
+*/
+//----------------------------------------------
+
+// Primivies vs. objects in practice
+
+// Primitive types
+let lastName = 'Willaims';
+let oldLastName = lastName;
+lastName = 'Davis';
+console.log(lastName, oldLastName); // Davis Williams
+
+// Reference types
+const jessica = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
 };
-// samir.greet();
-// samir.calcAge();
+const marriedJessica = jessica;
+marriedJessica.lastName = 'Davis';
+console.log('before marriage: ', jessica); // jessica davie
+console.log('After marriage: ', marriedJessica); // jessica davis
+// marriedJessica = {}; // error
 
-// Argunment keyword
-// it has argument keyword, and its fine to add more arguments
-const addExpr = function (a, b) {
-  console.log(arguments);
-  return a + b;
+// Copying objects
+const jessica2 = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+  family: ['alice', 'bob'],
 };
-addExpr(2, 5, 4);
 
-// not allow to add more parametres than declaeard
-var addArrow = (a, b) => {
-  // console.log(arguments);
-  return a + b;
-};
-addArrow(2, 5);
+const jessicaCopy = Object.assign({}, jessica2); // Shallow Copy
+jessicaCopy.lastName = 'Davis';
+
+jessicaCopy.family.push('Mary');
+jessicaCopy.family.push('John');
+
+console.log('before marriage: ', jessica2);
+console.log('After marriage: ', jessicaCopy);
