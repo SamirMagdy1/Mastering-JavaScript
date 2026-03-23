@@ -1,5 +1,7 @@
 'use strict';
 
+// setting up final version of the game
+
 // Selecting Elements
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
